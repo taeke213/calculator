@@ -1,20 +1,22 @@
 let display = document.getElementById("display")
 let operators = document.querySelectorAll(".operators")
 let equalbut = document.getElementById("=") 
-let displayvalue = ''
+let clear = document.getElementById("c")
 let numbers = document.querySelectorAll(".numbers")
+let displayvalue = ''
 let num1 = 0
 let num2 = 0
 let operation = ''
 let operatorpressed = false
 let result = ''
 
+clear.addEventListener(("click"), () => clearing())
 numbers.forEach(key => key.addEventListener(("click"), e => updatedisplay(e)))
 operators.forEach(key => key.addEventListener(("click"), o => handleoperation(o)))
 equalbut.addEventListener(("click"), () =>  {
     if(operatorpressed){
     displayvalue = ''
-    display.textContent = operate(operation, num1, num2)
+    display.textContent = roundTo(operate(operation, num1, num2), 10) 
     operatorpressed = false
 }})
 
@@ -45,8 +47,8 @@ function handleoperation(o){
         operatorpressed = true
         num1 = displayvalue
         displayvalue = ''
-        display.textContent = displayvalue
         operation = o.target.value
+        display.textContent = operation
     }
 }
 
@@ -57,7 +59,18 @@ function updatedisplay(e){
         num2 = e.target.textContent
     }
 }
+function roundTo(num, precision) {
+    const factor = Math.pow(10, precision)
+    return Math.round(num * factor) / factor
+}
 
+function clearing(){
+    displayvalue = ''
+    display.textContent = ''
+    num1 = ''
+    num2 = ''
+    operatorpressed = false
+}
 
 var functions = {
     add: function (num1, num2) {return num1 + num2},
