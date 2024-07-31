@@ -7,13 +7,15 @@ let num1 = 0
 let num2 = 0
 let operation = ''
 let operatorpressed = false
-let result = false
+let result = ''
 
 numbers.forEach(key => key.addEventListener(("click"), e => updatedisplay(e)))
 operators.forEach(key => key.addEventListener(("click"), o => handleoperation(o)))
 equalbut.addEventListener(("click"), () =>  {
     if(operatorpressed){
+    displayvalue = ''
     display.textContent = operate(operation, num1, num2)
+    operatorpressed = false
 }})
 
 function operate(operation, num1, num2){
@@ -33,18 +35,19 @@ function operate(operation, num1, num2){
             return functions["divide"](num1, num2);
             break;
     }
-    operatorpressed = false
     operation = ''
     num1 = 0
     num2 = 0
 }
 
 function handleoperation(o){
-    operatorpressed = true
-    num1 = displayvalue
-    displayvalue = ''
-    display.textContent = displayvalue
-    operation = o.target.value
+    if(!operatorpressed){
+        operatorpressed = true
+        num1 = displayvalue
+        displayvalue = ''
+        display.textContent = displayvalue
+        operation = o.target.value
+    }
 }
 
 function updatedisplay(e){
