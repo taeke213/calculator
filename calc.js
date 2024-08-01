@@ -78,7 +78,7 @@ function handleoperation(o){
 
 
 function updatedisplay(e){
-    if(Number(e) || e == "."){
+    if(Number(e) || e == "." || e == 0){
     displayvalue += e
     display.innerHTML = displayvalue;
     }
