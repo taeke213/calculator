@@ -1,8 +1,10 @@
 *{
+    font-size: large;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 body{
     margin: 0;
+    background-image: linear-gradient(to right, black, rgb(19, 19, 19), black);
 }
 .calculator{
     position: absolute;
@@ -43,6 +45,7 @@ body{
     grid-template-rows: repeat(5, 1fr);
     width: 80%;
     height: 70%;
+    color: black;
     
 }
 .numbers, .operators, .equal, .c, .backspace{

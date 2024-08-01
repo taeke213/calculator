@@ -12,10 +12,13 @@ let operatorpressed = false
 let result = ''
 
 clear.addEventListener(("click"), () => clearing())
-numbers.forEach(key => key.addEventListener(("click"), e => updatedisplay(e)))
+numbers.forEach(key => key.addEventListener(("click"), e => updatedisplay(e.target.innerHTML)))
 operators.forEach(key => key.addEventListener(("click"), o => handleoperation(o)))
 equalbut.addEventListener(("click"), () =>  {
     if(operatorpressed){
+    num2 = displayvalue
+    Number(num1)
+    Number(num2)
     displayvalue = ''
     result = roundTo(operate(operation, num1, num2), 10) 
     if(result == Infinity){
@@ -30,7 +33,9 @@ backspace.addEventListener(("click"), () => {
     displayvalue = newvalue
     display.textContent = displayvalue
 })
-
+window.addEventListener(("keydown"), e => {
+    updatedisplay(e.key)
+})
 
 function operate(operation, num1, num2){
     num1 = Number(num1)
@@ -42,7 +47,7 @@ function operate(operation, num1, num2){
         case "-":
             return functions["min"](num1, num2);
             break;
-        case "X":
+        case "x":
             return functions["times"](num1, num2);
             break;
         case "/":
@@ -65,16 +70,65 @@ function handleoperation(o){
         operatorpressed = true
         num1 = displayvalue
         displayvalue = ''
-        operation = o.target.value
+        operation = o
         display.textContent = operation
     }
 }
 
+
+
 function updatedisplay(e){
-    displayvalue += e.target.textContent
+    if(Number(e) || e == "."){
+    displayvalue += e
     display.innerHTML = displayvalue;
+    }
+    switch(e){
+        case "x":
+            handleoperation(e)
+            break
+        case "+":
+            handleoperation(e)
+            break
+        case "-":
+            handleoperation(e)
+            break
+        case "^":
+            handleoperation(e)
+            break
+        case "/":
+            handleoperation(e)
+            break
+        case "%":
+            handleoperation(e)
+            break
+        case "c":
+            clearing()
+            break
+        case "Backspace":
+            const newvalue = displayvalue.slice(0, -1)
+            displayvalue = newvalue
+            display.textContent = displayvalue
+            break
+        case "Enter":
+            if(operatorpressed){
+                num2 = displayvalue
+                displayvalue = ''
+                Number(num1)
+                Number(num2)
+            result = operate(operation, num1, num2)}
+            if(result == Infinity){
+                    display.textContent = "can't divide by 0"
+            } else {
+                    display.textContent = result
+            }
+                operatorpressed = false
+            break
+        
+    }
+    
+    
     if(operatorpressed){
-        num2 += e.target.textContent
+        num2 += e
     }
 }
 function roundTo(num, precision) {
