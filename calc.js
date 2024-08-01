@@ -3,6 +3,7 @@ let operators = document.querySelectorAll(".operators")
 let equalbut = document.getElementById("=") 
 let clear = document.getElementById("c")
 let numbers = document.querySelectorAll(".numbers")
+let backspace = document.getElementById("backspace")
 let displayvalue = ''
 let num1 = 0
 let num2 = 0
@@ -16,9 +17,20 @@ operators.forEach(key => key.addEventListener(("click"), o => handleoperation(o)
 equalbut.addEventListener(("click"), () =>  {
     if(operatorpressed){
     displayvalue = ''
-    display.textContent = roundTo(operate(operation, num1, num2), 10) 
+    result = roundTo(operate(operation, num1, num2), 10) 
+    if(result == Infinity){
+        display.textContent = "can't divide by 0"
+    } else {
+        display.textContent = result
+    }
     operatorpressed = false
 }})
+backspace.addEventListener(("click"), () => {
+    const newvalue = displayvalue.slice(0, -1)
+    displayvalue = newvalue
+    display.textContent = displayvalue
+})
+
 
 function operate(operation, num1, num2){
     num1 = Number(num1)
@@ -35,6 +47,12 @@ function operate(operation, num1, num2){
             break;
         case "/":
             return functions["divide"](num1, num2);
+            break;
+        case "^":
+            return functions["power"](num1, num2);
+            break;
+        case "%":
+            return functions["percenatage"](num1, num2);
             break;
     }
     operation = ''
@@ -56,7 +74,7 @@ function updatedisplay(e){
     displayvalue += e.target.textContent
     display.innerHTML = displayvalue;
     if(operatorpressed){
-        num2 = e.target.textContent
+        num2 += e.target.textContent
     }
 }
 function roundTo(num, precision) {
@@ -76,6 +94,7 @@ var functions = {
     add: function (num1, num2) {return num1 + num2},
     min: function (num1,num2) {return num1 - num2},
     times: function(num1,num2) {return num1 * num2},
-    divide: function(num1, num2) {return num1 / num2}
-
+    divide: function(num1, num2) {return num1 / num2},
+    percenatage: function(num1, num2) {return num1/num2 * 100},
+    power: function(num1, num2) {return num1 ** num2}
 }
